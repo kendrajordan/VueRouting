@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
-    <!-- Add router component-->
-    <router-view></router-view>
+    <div class="container">
+      <!-- Add router component-->
+      <router-view></router-view>
+    </div>
+
   </div>
 </template>
 
