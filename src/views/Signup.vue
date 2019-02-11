@@ -5,16 +5,16 @@
       <div class="card-body">
         <h3 class="text-center my-4">SignUp</h3>
         <div class="form-group">
-          <input type="text" placeholder="Name" class="form-control">
+          <input v-model="name" type="text" placeholder="Name" class="form-control">
         </div>
         <div class="form-group">
-          <input type="text" placeholder="Email" class="form-control">
+          <input v-model="email" type="text" placeholder="Email" class="form-control">
         </div>
         <div class="form-group">
-          <input type="text" placeholder="Password" class="form-control">
+          <input v-model="password" type="text" placeholder="Password" class="form-control">
         </div>
         <div class="form-group text-center">
-        <button class="btn form-control btn-success">SignUp</button>
+        <button v-on:click="registerUser()"class="btn form-control btn-success">SignUp</button>
         </div>
       </div>
     </div>
@@ -22,3 +22,44 @@
   </div>
 </div>
 </template>
+
+<script>
+  //Making an API request for the information in the signup page
+  /*
+  1. Create an data function that accepts name, email and password data properties
+  2.v-model the name email and password properties in the signup template
+  3.Add a v-on:click and include the function registerUser()
+  4.Add the registerUser function  in the methods section of this component
+  5. Test to see if the function works with a console.log() for the current name, email and password
+  6. Install axios and import it
+  7.Make a axios.post api request
+  */
+  import Axios from 'axios';
+    export default{
+      data(){
+        return{
+          name:'',
+          email:'',
+          password:''
+        }
+      },
+      methods:{
+        registerUser:function(){
+            console.log(this.name,this.email,this.password);
+            Axios.post('https://react-blog-api.bahdcasts.com/api/auth/register',{
+            name:this.name,
+            email:this.email,
+            password:this.password
+          }).then(response =>{
+
+            console.log(response);
+
+          }).catch(({response}) =>{
+            console.log(response);
+          });
+        }
+
+      }
+    }
+
+</script>
