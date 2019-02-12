@@ -5,13 +5,35 @@
       <div class="card-body">
         <h3 class="text-center my-4">SignUp</h3>
         <div class="form-group">
-          <input v-model="name" type="text" placeholder="Name" class="form-control">
+          <input v-bind:class="{'is-invalid':errors.name, 'is-valid':!errors.name && this.submitted}" v-model="name" type="text" placeholder="Name" class="form-control">
+          <!-- name error-->
+          <div class="errors" v-if="errors.name">
+            <small class="text-danger" v-bind:key="error" v-for="error in errors.name">
+              {{error}}
+            </small>
+          </div>
         </div>
         <div class="form-group">
-          <input v-model="email" type="text" placeholder="Email" class="form-control">
+          <!-- v-binding class stylings-->
+          <!--
+          Add an is-invalid class if error.email is truthy
+          -->
+          <input v-bind:class="{'is-invalid':errors.email, 'is-valid':!errors.email && this.submitted}" v-model="email" type="text" placeholder="Email" class="form-control">
+          <!-- email error-->
+          <div class="errors" v-if="errors.email">
+            <small class="text-danger" v-bind:key="error" v-for="error in errors.email">
+              {{error}}
+            </small>
+          </div>
         </div>
         <div class="form-group">
-          <input v-model="password" type="password" placeholder="Password" class="form-control">
+          <input v-bind:class="{'is-invalid':errors.password,'is-valid':!errors.password && this.submitted}" v-model="password" type="password" placeholder="Password" class="form-control">
+          <!-- email error-->
+          <div class="errors" v-if="errors.password">
+            <small class="text-danger" v-bind:key="error" v-for="error in errors.password">
+              {{error}}
+            </small>
+          </div>
         </div>
         <div class="form-group text-center">
         <button v-on:click="registerUser()"class="btn form-control btn-success">SignUp</button>
@@ -40,7 +62,9 @@
         return{
           name:'',
           email:'',
-          password:''
+          password:'',
+          errors:{},
+          submitted:false
         }
       },
       methods:{
@@ -51,6 +75,7 @@
             email:this.email,
             password:this.password
           }).then((response) =>{
+            this.submitted= true;
             const {data} = response.data;
             //this.$root is the vue instance in main.js
             this.$root.auth = data;
@@ -59,7 +84,8 @@
             //Push to home page when signed inspect
             this.$router.push('home');
           }).catch(({response}) =>{
-            console.log(response);
+            this.submitted = true;
+            this.errors =response.data;
           });
         }
 
