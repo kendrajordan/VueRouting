@@ -8,6 +8,8 @@ import Login from './views/Login.vue'
 
 import Signup from './views/Signup.vue'
 
+import Home from './views/Home.vue'
+
 //use the Router
 //This is where you register plugins with vue.js
 Vue.use(Router)
@@ -23,6 +25,9 @@ const router = new Router({
   },{
     path: '/signup',
     component: Signup
+  },{
+    path: '/home',
+    component:Home
   }]
 
 })

@@ -56,7 +56,8 @@
             this.$root.auth = data;
             //Store the authentication information
             localStorage.setItem('auth',JSON.stringify(data))
-
+            //Push to home page when signed inspect
+            this.$router.push('home');
           }).catch(({response}) =>{
             console.log(response);
           });
