@@ -11,7 +11,7 @@
           <input v-model="email" type="text" placeholder="Email" class="form-control">
         </div>
         <div class="form-group">
-          <input v-model="password" type="text" placeholder="Password" class="form-control">
+          <input v-model="password" type="password" placeholder="Password" class="form-control">
         </div>
         <div class="form-group text-center">
         <button v-on:click="registerUser()"class="btn form-control btn-success">SignUp</button>
@@ -50,9 +50,12 @@
             name:this.name,
             email:this.email,
             password:this.password
-          }).then(response =>{
-
-            console.log(response);
+          }).then((response) =>{
+            const {data} = response.data;
+            //this.$root is the vue instance in main.js
+            this.$root.auth = data;
+            //Store the authentication information
+            localStorage.setItem('auth',JSON.stringify(data))
 
           }).catch(({response}) =>{
             console.log(response);
