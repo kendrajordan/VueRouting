@@ -3,7 +3,7 @@
   <div class="col-md-6 offset-md-3">
     <div class="card">
       <div class="card-body">
-        <h3 class="text-center my-4">SignUp</h3>
+        <h3 class="text-center my-4">Signup</h3>
         <div class="form-group">
           <input v-bind:class="{'is-invalid':errors.name, 'is-valid':!errors.name && this.submitted}" v-model="name" type="text" placeholder="Name" class="form-control">
           <!-- name error-->
@@ -36,7 +36,13 @@
           </div>
         </div>
         <div class="form-group text-center">
-        <button v-on:click="registerUser()"class="btn form-control btn-success">SignUp</button>
+        <button v-on:click="registerUser()" v-bind:disabled="loading" class="btn form-control btn-success">
+
+          <i class="fas fa-spin fa-spinner" v-if="loading"></i>
+
+          {{loading ? '':'Signup'}}
+
+        </button>
         </div>
       </div>
     </div>
@@ -64,17 +70,20 @@
           email:'',
           password:'',
           errors:{},
-          submitted:false
+          submitted:false,
+          loading:false
         }
       },
       methods:{
         registerUser:function(){
+          this.loading =true;
             console.log(this.name,this.email,this.password);
             Axios.post('https://react-blog-api.bahdcasts.com/api/auth/register',{
             name:this.name,
             email:this.email,
             password:this.password
           }).then((response) =>{
+            this.loading = false;
             this.submitted= true;
             const {data} = response.data;
             //this.$root is the vue instance in main.js
@@ -84,6 +93,7 @@
             //Push to home page when signed inspect
             this.$router.push('home');
           }).catch(({response}) =>{
+            this.loading = false;
             this.submitted = true;
             this.errors =response.data;
           });
